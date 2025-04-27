@@ -15,6 +15,11 @@ import { CreateBrandDto, UpdateBrandDto } from './dto/brand.dto';
 export class BrandsController {
   constructor(private readonly brandService: BrandsService) {}
 
+  @Get('all')
+  getAllBrands() {
+    return this.brandService.getAllBrands();
+  }
+
   // get brands data with limit amount
   @Get()
   getAllBrandsWithPagination(

@@ -6,6 +6,21 @@ import { CreateBrandDto, UpdateBrandDto } from './dto/brand.dto';
 export class BrandsService {
   constructor(private prisma: PrismaService) {}
 
+  async getAllBrands() {
+    try {
+      return await this.prisma.brand.findMany();
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Something went wrong while creating the brand',
+          error: error.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   // get brands data with limit amount
   async getAllBrandsWithPagination(page: number = 1, limit: number = 10) {
     const skip = (page - 1) * limit;
