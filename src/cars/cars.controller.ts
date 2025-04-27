@@ -3,8 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
@@ -53,18 +51,7 @@ export class CarsController {
 
   @Post()
   async createBrand(@Body() request: CreateCarDto) {
-    try {
-      return await this.carsService.createCar(request);
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Something went wrong while creating the brand',
-          error: error.message,
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return await this.carsService.createCar(request);
   }
 
   @Patch(':id')
