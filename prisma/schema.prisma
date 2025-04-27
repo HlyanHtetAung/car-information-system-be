@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Brand {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  cars   Car[]
+  models Model[]
+}
+
+model Model {
+  id      Int    @id @default(autoincrement())
+  name    String
+  brandId Int
+  brand   Brand  @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  cars    Car[]
+}
+
+model Car {
+  id                 Int      @id @default(autoincrement())
+  registrationNumber String   @unique
+  brandId            Int
+  modelId            Int
+  brand              Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  model              Model    @relation(fields: [modelId], references: [id])
+  year               Int
+  color              String
+  notes              String?
+  price              Float
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
