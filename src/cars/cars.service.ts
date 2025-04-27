@@ -56,6 +56,17 @@ export class CarsService {
     };
   }
 
+  // checking the registarion number is already exist to prevent duplicate
+  async checkRegistrationNumberAlreadyExist(registrationNumber: any) {
+    const existingCar = await this.prisma.car.findUnique({
+      where: {
+        registrationNumber: registrationNumber.registrationNumber,
+      },
+    });
+
+    return existingCar !== null;
+  }
+
   async createCar(request: CreateCarDto) {
     return await this.prisma.car.create({
       data: request,

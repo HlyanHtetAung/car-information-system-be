@@ -35,9 +35,20 @@ export class CarsController {
     return this.carsService.getAllCarsWithPagination(+page, +limit, search);
   }
 
+  // checking the counts of brands and models
   @Get('check-brands-models')
   getBrandsAndModelsCount() {
     return this.carsService.validateBrandsAndModelsExist();
+  }
+
+  // checking the registarion number is already exist to prevent duplicate
+  @Post('check-registration-number')
+  async checkRegistrationNumberAlreadyExist(
+    @Body() registrationNumber: string,
+  ) {
+    return this.carsService.checkRegistrationNumberAlreadyExist(
+      registrationNumber,
+    );
   }
 
   @Post()
