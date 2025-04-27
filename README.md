@@ -45,3 +45,9 @@ $ npx prisma studio
 ```bash
 $ npm run start:dev
 ```
+
+## The server will run on
+
+```bash
+$ http://localhost:3000
+```
