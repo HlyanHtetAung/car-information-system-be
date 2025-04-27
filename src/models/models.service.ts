@@ -29,7 +29,6 @@ export class ModelsService {
 
   // get models filter by brand id
   async getModlesByBrand(brandId: number) {
-    console.log('** brandId **', brandId);
     try {
       return await this.prisma.model.findMany({
         where: {

@@ -42,7 +42,6 @@ export class CarsService {
           }
         : {};
 
-      // console.log('** where **', where);
       const skip = (page - 1) * limit;
 
       const [cars, total] = await this.prisma.$transaction([
