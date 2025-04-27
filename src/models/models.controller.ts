@@ -21,6 +21,12 @@ export class ModelsController {
     return this.modelService.getAllModels();
   }
 
+  @Get('by-brand/:brandId')
+  getModlesByBrand(@Param('brandId') brandId: number) {
+    console.log('*** aa ***', brandId);
+    return this.modelService.getModlesByBrand(+brandId);
+  }
+
   @Get()
   getAllModelsWithPagination(
     @Query('page') page: number = 1,

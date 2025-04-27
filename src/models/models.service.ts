@@ -27,6 +27,30 @@ export class ModelsService {
     }
   }
 
+  // get models filter by brand id
+  async getModlesByBrand(brandId: number) {
+    console.log('** brandId **', brandId);
+    try {
+      return await this.prisma.model.findMany({
+        where: {
+          brandId,
+        },
+        include: {
+          brand: true,
+        },
+      });
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.INTERNAL_SERVER_ERROR,
+          message: 'Something went wrong while creating the brand',
+          error: error.message,
+        },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   // get models data with limit amount
   async getAllModelsWithPagination(page: number = 1, limit: number = 10) {
     try {
