@@ -9,12 +9,14 @@ import {
   Query,
 } from '@nestjs/common';
 import { BrandsService } from './brands.service';
-import { CreateBrandDto, UpdateBrandDto } from './dto/brand.dto';
+import { UpdateBrandDto } from './dto/update-brand.dto';
+import { CreateBrandDto } from './dto/create-brand.dto';
 
 @Controller('brands')
 export class BrandsController {
   constructor(private readonly brandService: BrandsService) {}
 
+  // getting all brands data
   @Get('all')
   getAllBrands() {
     return this.brandService.getAllBrands();

@@ -8,28 +8,27 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ModelsService } from './models.service';
-import { CreateModelDto, UpdateModelDto } from './dto/model.dto';
+import { CreateModelDto } from './dto/create-model.dto';
+import { UpdateModelDto } from './dto/update-model.dto';
 
 @Controller('models')
 export class ModelsController {
   constructor(private readonly modelService: ModelsService) {}
 
-  @Get()
+  @Get('all')
   getAllModels() {
-    try {
-      return this.modelService.getAllModels();
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          message: 'Something went wrong while creating the brand',
-          error: error.message,
-        },
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return this.modelService.getAllModels();
+  }
+
+  @Get()
+  getAllModelsWithPagination(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
+    return this.modelService.getAllModelsWithPagination(+page, +limit);
   }
 
   @Post()
