@@ -16,6 +16,46 @@ export class CarsService {
     });
   }
 
+  // get cars data with limit amount
+  async getAllCarsWithPagination(
+    page: number = 1,
+    limit: number = 10,
+    search: string = '',
+  ) {
+    let where = search
+      ? {
+          registrationNumber: {
+            contains: search,
+          },
+        }
+      : {};
+
+    // console.log('** where **', where);
+    const skip = (page - 1) * limit;
+
+    const [cars, total] = await this.prisma.$transaction([
+      this.prisma.car.findMany({
+        where,
+        skip,
+        take: limit,
+        include: {
+          brand: true,
+          model: true,
+        },
+      }),
+      this.prisma.car.count({
+        where,
+      }),
+    ]);
+
+    return {
+      data: cars,
+      total,
+      page,
+      limit,
+    };
+  }
+
   async createCar(request: CreateCarDto) {
     return await this.prisma.car.create({
       data: request,

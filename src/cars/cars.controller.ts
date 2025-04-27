@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { CreateCarDto } from './dto/create-car.dto';
@@ -18,9 +19,20 @@ import { UpdateCarDto } from './dto/update-car.dto';
 export class CarsController {
   constructor(private readonly carsService: CarsService) {}
 
-  @Get()
+  // getting all cars data
+  @Get('all')
   getAllCars() {
     return this.carsService.getAllCars();
+  }
+
+  // get brands data with limit amount
+  @Get()
+  getAllCarsWithPagination(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query('search') search: string = '',
+  ) {
+    return this.carsService.getAllCarsWithPagination(+page, +limit, search);
   }
 
   @Get('check-brands-models')
